@@ -19,13 +19,13 @@ def scan():
     containers = []
     for container in docker.containers.list():
         
-        hostname = container.short_id + '.docker' + ';' +container.name + '.docker'
+        hostnames = container.short_id + '.docker' + ';' + container.name + '.docker'
 
         label = container.attrs.get('Config').get('Labels').get(LABEL)
         if label:
-            hostname += ';' + label
+            hostnames += ';' + label
 
-        for string in hostname.split(';'):
+        for string in hostnames.split(';'):
             priority = 0
             lb = container
             ip = False
