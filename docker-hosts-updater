@@ -127,7 +127,7 @@ def update(items):
 
 
 def handle():
-    print('Recompiling...')
+    print('Rebuild and updating hosts file...')
     items = scan()
 
     map_dict = {}
