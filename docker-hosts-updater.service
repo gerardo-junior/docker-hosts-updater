@@ -1,0 +1,16 @@
+[Unit]
+Description=Docker hosts updater
+After=docker.service
+BindsTo=docker.service
+ReloadPropagatedFrom=docker.service
+
+[Service]
+Type=notify
+ExecStart=/opt/docker-hosts-updater/docker-hosts-updater
+ExecReload=/opt/docker-hosts-updater/docker-hosts-updater
+TimeoutSec=0
+RestartSec=2
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
