@@ -5,12 +5,13 @@ BindsTo=docker.service
 ReloadPropagatedFrom=docker.service
 
 [Service]
-Type=notify
 ExecStart=/opt/docker-hosts-updater/docker-hosts-updater
-ExecReload=/opt/docker-hosts-updater/docker-hosts-updater
-TimeoutSec=0
-RestartSec=2
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+IgnoreSIGPIPE=true
 Restart=always
+RestartSec=3
+Type=simple
 
 [Install]
 WantedBy=multi-user.target
