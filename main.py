@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 import docker
 import re
 from netaddr import valid_ipv4
 
-LABEL = 'ru.grachevko.dhu'
+LABEL = 'hostname.alias'
 MARKER = '#### DOCKER HOSTS UPDATER ####'
-HOSTS_PATH = '/opt/hosts'
+HOSTS_PATH = '/etc/hosts'
 
 
 def listen():
@@ -16,11 +18,16 @@ def listen():
 def scan():
     containers = []
     for container in docker.containers.list():
-        label = container.attrs.get('Config').get('Labels').get(LABEL)
-        if not label:
-            continue
+        hostname = container.short_id + '.docker'
 
-        for string in label.split(';'):
+        if container.name:
+            hostname += ';' +container.name + '.docker'
+
+        label = container.attrs.get('Config').get('Labels').get(LABEL)
+        if label:
+            hostname += ';' + label
+
+        for string in hostname.split(';'):
             priority = 0
             lb = container
             ip = False
